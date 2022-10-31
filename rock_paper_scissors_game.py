@@ -35,7 +35,7 @@ if user==0:
     print(rock)
 elif user==1:
     print(paper)
-elif user==4:
+elif user==14:
     print(scissors)
 
 print("\n\nCOM")
