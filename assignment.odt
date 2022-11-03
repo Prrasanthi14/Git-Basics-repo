@@ -1,0 +1,235 @@
+Drill 1:
+
+- Create the following directory structure. (Create empty files where necessary)
+
+mkdir hello			//creating the hello directory
+cd hello			//navigating inside the directory hello
+mkdir five			//creating the five directory inside hello
+mkdir one			//creating the one directory
+cd five				//navigating inside the five directory
+mkdir six			//creating the six directory
+cd six				/navigating inside the six directory
+touch c.txt			//creating the text file			
+mkdir seven			//creating the seven directory
+cd seven			/navigating inside the seven directory
+touch error.log			//creating the .log file	
+cd				//navigating outside all the directorys to reach to pooja directory
+cd ..				/navigating outside
+cd pooja			/navigating inside the pooja directory
+cd hello			/navigating inside the hello directory
+mkdir one			//creating the one directory
+cd one				/navigating inside the one directory
+touch a.txt			//creating the text file	
+touch b.txt			//creating the text file	
+mkdir two			//creating the two directory inside directory one
+cd two				/navigating inside the directory
+touch d.txt			//creating the text file	
+mkdir three			//creating the three directory inside two directory
+cd three			/navigating inside the directory
+touch e.txt			//creating the text file	
+mkdir four			//creating the four directory inside three directory
+cd four				/navigating inside the four directory
+touch access.log		//creating the log file	
+
+cd				//navigating outside all the directorys to reach to pooja directory
+cd ..				/navigating outside
+cd pooja			/navigating inside the pooja directory
+tree -a hello			//to visualize the folder structure in tree format
+
+
+
+
+
+-Delete all the files having the ‘.log’ extension	
+	sudo find ./hello -name "*.log" -type f -delete 
+
+//sudo find ./hello -->trying to find the file with super user permission inside hello folder
+// "*.log"  --> giving a pattern for files having extension .log
+//-type f -delete  --> specifying to delete only the files 
+
+ 
+
+
+-Add the following content to `a.txt`
+
+find ./hello -name “a.txt”		//locating the a.txt file	
+cd /hello/one/				//navigated to the path obtained
+nano a.txt 				//opening the file in editor and pasting the content nd saved
+cat a.txt				//displaying the file contents in cli
+
+- Delete the directory named `five`			- sudo find -name five -exec rm -rv five \;
+//sudo find -name five  --> finding the location of the file five
+//-exec rm -rv five \;   -->executing the remove five file command as part of find command itself
+
+
+- Rename the `one` directory to `uno` 		- sudo mv one uno
+//renamed by using move command so that it just copies all the content of one directory into the new uno directory without keeping a copy of one directory
+
+- Move `a.txt` to the `two` directory 			- sudo mv a.txt two/
+//moved the a.txt file from current one folder to inside two folder path
+
+
+
+
+Drill 2:
+
+
+1. Download the contents of "Harry Potter and the Goblet of fire" using the command line from
+
+sudo wget https://raw.githubusercontent.com/bobdeng/owlreader/master/ERead/assets/books/Harry%20Potter%20and%20the%20Goblet%20of%20Fire.txt
+
+//used wget command <link>
+
+2. Print the first three lines in the book
+
+head -n 3 'Harry Potter and the Goblet of Fire.txt'	//used head command –number and no:of lines
+
+3. Print the last 10 lines in the book
+
+tail -n 10 'Harry Potter and the Goblet of Fire.txt'	//used tail command –number and no:of lines from the last
+
+4. How many times do the following words occur in the book?
+    * Harry
+    * Ron
+    * Hermione
+    * Dumbledore
+
+grep -iac Harry 'Harry Potter and the Goblet of Fire.txt' 		o/p: (2594)
+//used grep with ignore case,all the words,and count the number of Harry in the file
+
+
+***I have copied the file to p.txt due to the lengthy given/ downloaded filename ***
+
+cp 'Harry Potter and the Goblet of Fire.txt' p.txt
+
+grep -ica "Harry" p.txt && grep -ica "Hermione" p.txt && grep -ica "Ron" p.txt && grep -ica "Hermione" p.txt && grep -ica "Dumbledore" p.txt
+
+2594
+822
+1195
+822
+507
+
+//combined grep command using && and above are the count of all four names each
+
+5. Print lines from 100 through 200 in the book
+
+cat p.txt|head -n 200| tail -n 100>new.txt
+
+// first displaying the output content and taking that as an input for head command.
+//the head command is used to pick first 200 lines in the content
+//the tail command is used to select the last 100 lines of the 200, which would be from line 101 to 200 and storing this output in new.txt file
+6. How many unique words are present in the book?
+cat p.txt |tr [:upper:] [:lower:] |tr [:punct:] " "|tr -s ' ' '\n'|sed -r 's/\s+//g'| sort -fu|wc -w
+10229
+
+//first taking all the contents into dsplay using cat command 
+//Taking that as input, using tr command making all the words into lower case - tr [:upper:] [:lower:] 
+// Removing all the punctiation into space - tr [:punct:] " "|
+//Replacing the spaces into new line  - tr -s ' ' '\n'|
+// using sed command we are removing the unecessary trailing spaces in words if present  - 
+sed -r 's/\s+//g'
+//Then sorting the obtained words in alphabetical order ignoring the case and taking unique values
+sort -fu
+//Taking the unique words as input to worcount command counting the overall unique words
+wc -w
+
+### Processes, ports
+
+1. List your browser's process ids (pid) and parent process ids(ppid)
+
+rasanthi@prrasanthi:~$ ps -A | grep -a chrome
+  29881 ?        06:36:17 chrome
+  29889 ?        00:00:00 chrome_crashpad
+  29891 ?        00:00:00 chrome_crashpad
+  29897 ?        00:00:00 chrome
+  29898 ?        00:00:00 chrome
+  29902 ?        00:00:02 chrome
+  29927 ?        00:11:21 chrome
+  29938 ?        00:00:27 chrome
+  30005 ?        00:00:08 chrome
+  30041 ?        00:05:11 chrome
+  30073 ?        00:00:23 chrome
+  31399 ?        00:01:07 chrome
+  76494 ?        00:04:53 chrome
+  81775 ?        00:00:26 chrome
+  81934 ?        00:00:23 chrome
+  81954 ?        00:00:03 chrome
+  81984 ?        00:00:00 chrome
+prasanthi@prrasanthi:~$ ps --pid 29881
+    PID TTY          TIME CMD
+  29881 ?        06:36:18 chrome
+prasanthi@prrasanthi:~$ ps --ppid 29881
+    PID TTY          TIME CMD
+  29886 ?        00:00:00 cat
+  29887 ?        00:00:00 cat
+  29897 ?        00:00:00 chrome
+  29898 ?        00:00:00 chrome
+  29927 ?        00:11:21 chrome
+  31399 ?        00:01:07 chrome
+
+2. Stop the browser application from the command line
+	sudo kilall chrome
+
+3. List the top 3 processes by CPU usage.
+	ps aux --sort -%cpu | head -n 4	
+//displaying all the processes running and taking that as input to head command
+//and sorting considering the cpu column
+//taking number as 4 for head command as it displays headers also
+
+4. List the top 3 processes by memory usage.
+	ps aux --sort -%mem | head -n 4
+/displaying all the processes running and taking that as input to head command
+//and sorting considering the cpu column
+//taking number as 4 for head command as it displays headers also
+ 
+
+5. Start a Python HTTP server on port 8000
+	python3 -m http.server 
+
+6. Open another tab. Stop the process you started in the previous step
+
+ctrl+alt+T
+ps aux | grep python 	//display all process and find for python related process using grep
+sudo killall python	//kill all process related to python
+
+else
+ps aux | grep python |sort -cmd  
+//display all process and find for python related process using grep and sort them c-check m-merge d-in dictionary order
+sudo kill 15479  
+//from the above command obtain the speicifc python process id and kill the process		
+
+for verification : 
+	sudo killall python
+O/P python: no process found
+
+
+7. Start a Python HTTP server on port 90
+	sudo python3 -m http.server 90
+//specifying the server port as 90
+
+8. Display all active connections and the corresponding TCP / UDP ports.
+	netstat -tl
+	netstat -ul
+//specifically listing the network protocols as t- tcp and u for udp l-listing the connections
+
+9. Find the pid of the process that is listening on port 5432
+	netstat -lp --numeric-ports 5432
+//list the process ids with numeric port number 5432
+
+
+
+
+
+### Managing software
+
+Use `apt` (Ubuntu) or `homebrew` (Mac) to:
+
+
+1. Install `htop`, `vim` and `nginx`
+	sudo apt get-install htop vim nginx
+
+2. Uninstall `nginx`
+	sudo apt autoremove nginx
+_____________
+
