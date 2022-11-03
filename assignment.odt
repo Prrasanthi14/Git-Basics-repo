@@ -231,5 +231,3 @@ Use `apt` (Ubuntu) or `homebrew` (Mac) to:
 
 2. Uninstall `nginx`
 	sudo apt autoremove nginx
-_____________
-
